@@ -57,7 +57,7 @@ const update = () => {
         }*/
 
         let radius = 100
-        //ctx.moveTo(Math.cos(0) * radius, Math.sin(0) * radius)
+        ctx.moveTo(Math.cos(0) * radius, Math.sin(0) * radius)
 
         for (let x = 0; x <= steps; x++){
             let angle = (x / steps) * Math.PI * 2
