@@ -2,6 +2,7 @@
 
 import Mouse from "./utils/mouse"
 import Easing from "./utils/easing"
+import Point from "./Point"
 
 const canvas = document.querySelector('.main-canvas')
 const ctx = canvas.getContext("2d")
@@ -19,45 +20,80 @@ let cH2 = (canvas.height / 2)
 let maskLoaded = false
 
 let time = 0
+let points = []
 
 
 // à chaque image : 60fps
 const update = () => {
     requestAnimationFrame(update)
 
+
     time += .01
 
     let mouseX = ((Mouse.cursor[0] + 1) / 2) * canvas.width
     let mouseY = ((Mouse.cursor[1] + 1) / 2) * canvas.height
+    
+    ctx.clearRect(0, 0, window.innerWidth * window.devicePixelRatio,  window.innerHeight * window.devicePixelRatio)
+    // ctx.fillStyle = 'black'
+    // ctx.globalAlpha = 0.1
+    // ctx.fillRect(0, 0, canvas.width, canvas.height)
+    // ctx.globalAlpha = 1
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    if (Mouse.isDown) {
+        points.push(new Point(mouseX, mouseY, 2, ctx))
+    }
+    console.log(points.length);
 
-    let size = 200
+    
+    for (let i = 0; i < points.length; i++) {
+        points[i].draw()
+    }
 
-    ctx.save()
+    points = points.filter(point => point.lifeSpan > 0)
+    /*
+        for(let i = 0; i < 40; i++){
+            for(let j = 0; j < 40; j++){
+                drawArrowLookingAt(i * 50, j * 50, mouseX, mouseY)
+            }
+        }
 
-    ctx.translate(mouseX, mouseY)
-    ctx.rotate(time)
-    ctx.scale(Math.sin(time), Math.sin(time))
+        drawArrowLookingAt(cW2, cH2, mouseX, mouseY)
+    */
 
-    ctx.beginPath()
-    ctx.strokeStyle = '#ffffff'
-    ctx.moveTo(-size / 2, size / 2)
-    ctx.lineTo(0, -size / 2)
-    ctx.lineTo(size / 2, size / 2)
-    ctx.lineTo(-size / 2, size / 2)
-    ctx.stroke()
-    ctx.closePath()
-
-    ctx.restore()
-
-    // 
-
-
+    /*
+    for(let i = 0; i < 1000; i++){
+        drawCircle(i + time * i / 100, i * Math.sin(time))
+    }
+    */
 }
 requestAnimationFrame(update)
 
+function drawCircle(angle, radius){
+    ctx.beginPath()
+    ctx.fillStyle = `rgb(${red})`
+    ctx.arc(Math.cos(time + angle) * radius, Math.sin(time + angle) * radius, 3, 0, Math.PI * 2)
+    ctx.fill()
+    ctx.closePath()
+}
 
+function drawArrowLookingAt(x, y, px, py){
+    let size = 50
+
+    let angle = Math.atan2(py - y, px - x)
+    ctx.save()
+
+    ctx.translate(x, y)
+    ctx.rotate(angle)
+
+    ctx.beginPath()
+    ctx.moveTo(-size / 2, 0)
+    ctx.lineTo(size / 2, 0)
+    ctx.closePath()
+
+    ctx.strokeStyle = '#FFF'
+    ctx.stroke()
+    ctx.restore()
+}
 
 // let img = new Image()
 // img.src = "https://miro.medium.com/max/1068/0*WwAJP2U-pFbydOfi.jpeg"
