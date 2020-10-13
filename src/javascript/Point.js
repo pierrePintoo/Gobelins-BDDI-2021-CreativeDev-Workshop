@@ -5,7 +5,7 @@ class Point {
         this.size = size
         this.ctx = ctx
         
-        this.direction = Math.random() * Math.PI * 2
+        this.direction = Math.random() * Math.PI
         this.lifeSpan = 1
         this.lifeSpanRef = this.lifeSpan
         this.progress = 0
@@ -14,8 +14,8 @@ class Point {
     }
 
     update(){
-        this.x += Math.cos(this.direction)
-        this.y += Math.sin(this.direction)
+        this.x += Math.sin(this.direction)
+        this.y += Math.cos(this.direction)
         this.lifeSpan -= .01
         this.progress = this.lifeSpan / this.lifeSpanRef 
     }

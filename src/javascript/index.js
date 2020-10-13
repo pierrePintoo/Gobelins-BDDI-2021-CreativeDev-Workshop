@@ -3,6 +3,7 @@
 import Mouse from "./utils/mouse"
 import Easing from "./utils/easing"
 import Point from "./Point"
+import Noise1D from "./utils/Noise"
 
 const canvas = document.querySelector('.main-canvas')
 const ctx = canvas.getContext("2d")
@@ -39,11 +40,7 @@ const update = () => {
     // ctx.fillRect(0, 0, canvas.width, canvas.height)
     // ctx.globalAlpha = 1
 
-    if (Mouse.isDown) {
-        points.push(new Point(mouseX, mouseY, 2, ctx))
-    }
-    console.log(points.length);
-
+    points.push(new Point(cW2, cH2, 2, ctx))
     
     for (let i = 0; i < points.length; i++) {
         points[i].draw()
