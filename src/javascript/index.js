@@ -23,6 +23,8 @@ let maskLoaded = false
 let time = 0
 let points = []
 
+let point1 = new Point(canvas.width / 4, canvas.height / 2, 30, ctx)
+let point2 = new Point(canvas.width / 4, canvas.height * 2 / 3, 30, ctx)
 
 // à chaque image : 60fps
 const update = () => {
@@ -35,11 +37,12 @@ const update = () => {
     let mouseY = ((Mouse.cursor[1] + 1) / 2) * canvas.height
     
     ctx.clearRect(0, 0, window.innerWidth * window.devicePixelRatio,  window.innerHeight * window.devicePixelRatio)
-    // ctx.fillStyle = 'black'
-    // ctx.globalAlpha = 0.1
-    // ctx.fillRect(0, 0, canvas.width, canvas.height)
-    // ctx.globalAlpha = 1
+    ctx.fillStyle = 'black'
+    ctx.globalAlpha = 0.1
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    ctx.globalAlpha = 1
 
+    /*
     points.push(new Point(cW2, cH2, 2, ctx))
     
     for (let i = 0; i < points.length; i++) {
@@ -47,7 +50,7 @@ const update = () => {
     }
 
     points = points.filter(point => point.lifeSpan > 0)
-    /*
+    
         for(let i = 0; i < 40; i++){
             for(let j = 0; j < 40; j++){
                 drawArrowLookingAt(i * 50, j * 50, mouseX, mouseY)
@@ -62,6 +65,19 @@ const update = () => {
         drawCircle(i + time * i / 100, i * Math.sin(time))
     }
     */
+    point1.draw()
+    //point2.draw()
+    //point1.x = canvas.width / 4 + canvas.width / 2 * Easing.easeInOutQuad(time%1)
+    //point2.x = canvas.width / 4 + canvas.width / 2 * Easing.easeInOutQuad(time%1)
+    point1.targetX = mouseX
+    let diffX = point1.targetX - point1.x
+    diffX *= 0.05
+    point1.x += diffX
+
+    point1.targetY = mouseY
+    let diffY = point1.targetY - point1.y
+    diffY *= .05
+    point1.y += diffY
 }
 requestAnimationFrame(update)
 
