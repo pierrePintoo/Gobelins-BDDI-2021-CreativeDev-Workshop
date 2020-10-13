@@ -19,7 +19,7 @@ let cH2 = (canvas.height / 2)
 let maskLoaded = false
 
 let time = 0
-
+let lineWidth = 20
 
 // à chaque image : 60fps
 const update = () => {
@@ -32,59 +32,13 @@ const update = () => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    let size = 200
-
-    ctx.save()
-
-    ctx.translate(mouseX, mouseY)
-    ctx.rotate(time)
-    ctx.scale(Math.sin(time), Math.sin(time))
-
     ctx.beginPath()
-    ctx.strokeStyle = '#ffffff'
-    ctx.moveTo(-size / 2, size / 2)
-    ctx.lineTo(0, -size / 2)
-    ctx.lineTo(size / 2, size / 2)
-    ctx.lineTo(-size / 2, size / 2)
+    ctx.lineWidth = lineWidth
+    ctx.moveTo(lineWidth / 2, 0)
+    ctx.strokeStyle = `rgb(255, 255, 255)` 
+    ctx.lineTo(lineWidth / 2, canvas.height)
     ctx.stroke()
-    ctx.closePath()
-
-    ctx.restore()
-
-    // 
-
+    ctx.fill()
 
 }
 requestAnimationFrame(update)
-
-
-
-// let img = new Image()
-// img.src = "https://miro.medium.com/max/1068/0*WwAJP2U-pFbydOfi.jpeg"
-// img.onload = ()=>{
-//     console.log("l'image est chargée")
-// }
-
-// let mask = new Image()
-// mask.src = "https://images-ext-2.discordapp.net/external/iYBUoq3zm0M5LJDbHAX8xSMU0ZZGHQjaf60XYRcPD9U/http/designinteractif.gobelins.fr/wp-content/uploads/2018/11/cropped-Logo-Gobelins-1.png"
-// mask.onload = () => {
-//     maskLoaded = true
-// }
-
-// Blabla
-
-// let canvasWidth = (canvas.width)
-// let canvasHeight = (canvas.height)
-// let cW2 = (canvas.width / 2)
-// let cH2 = (canvas.height / 2)
-
-// ctx.beginPath()
-// ctx.strokeStyle = '#00aa00'
-// ctx.moveTo(canvasWidth / 2 - 50, canvasHeight / 2 + 50)
-// ctx.lineTo(canvasWidth / 2, canvasHeight / 2 - 50)
-// ctx.lineTo(canvasWidth / 2 + 50, canvasHeight / 2 + 50)
-// ctx.lineTo(canvasWidth / 2 - 50, canvasHeight / 2 + 50)
-// ctx.stroke()
-// ctx.closePath()
-
-
