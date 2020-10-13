@@ -43,6 +43,18 @@ const update = () => {
     ctx.fill()
     ctx.closePath()
 
+    ctx.beginPath()
+    ctx.fillStyle = '#ff0000'
+    ctx.arc(Math.cos(angle) * radius, 0, 5, 0, Math.PI * 2, true)
+    ctx.fill()
+    ctx.closePath()
+
+    ctx.beginPath()
+    ctx.fillStyle = '#00ff00'
+    ctx.arc(0, Math.sin(angle) * radius, 5, 0, Math.PI * 2, true)
+    ctx.fill()
+    ctx.closePath()
+
     ctx.restore()
 
 }
