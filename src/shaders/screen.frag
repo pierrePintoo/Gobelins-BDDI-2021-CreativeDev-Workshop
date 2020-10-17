@@ -2,17 +2,22 @@ precision highp float;
 
 uniform float time;
 uniform vec2 mouse;
+uniform vec2 rez;
 
-// abs : renvoi la version absolue du chiffre pour que ce soit toujours supérieur à 0
 varying vec2 vUv;
 
 void main() {
-    vec3 color1 = vec3(1, 0.101, 0.858);
-    vec3 color2 = vec3(0.215, 0.101, 1);
 
-    float mixValue = smoothstep(((mouse.x + 1.) / 2.) - .3, ((mouse.x + 1.) / 2.) + .3, vUv.x);
+   float pct = 0.0;
+   vec2 uv = vUv - .5;
+   vec2 cursor = vec2(mouse.x, -mouse.y) / 2.;
 
-    vec3 finalColor = mix(color1, color2, mixValue);
+   // The DISTANCE from the pixel to the mouse
+   pct = distance( uv, cursor);
+   // Convert to linear
+   float disc = smoothstep( 0., 1., pct);
+  
+   vec3 color = vec3(disc);
+   gl_FragColor = vec4( color, 1.0 );
 
-    gl_FragColor = vec4(finalColor, 1.);
-}
+   }
