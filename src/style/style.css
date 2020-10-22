@@ -132,6 +132,7 @@ body{
   height: 100%;
   border: solid 17px  #133A54;
   background-color: #133A54 ;
+  overflow-y: scroll;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
