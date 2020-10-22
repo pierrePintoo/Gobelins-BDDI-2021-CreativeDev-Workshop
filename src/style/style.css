@@ -164,9 +164,6 @@ option:hover{
   background-color:  #516E80;
 }
 
-
-
-
 .population{
   width: 68%;
 }
@@ -185,7 +182,7 @@ option:hover{
   width: 100%;
   height: 80vh;
   margin-top: 40px;
-
+  border: solid red 2px;
 }
 
 .explication_data{

@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
     <title>Gobelins Creative Dev workshop</title>
     <link rel="stylesheet" href="style/style.css">
     <!-- Webpack Magic -->
 </head>
 
 <body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <div class="welcome"> 
         <img src="assets/logo.svg" alt="" class="logo">
@@ -106,12 +106,63 @@
             <canvas id="chartOneContainer" width='350' height="350"></canvas>
             <canvas id="chartTwoContainer" width='300' height="300" ></canvas>
         </div>
-
     </div>
 
     <script src="javascript/index.js"></script>
     <script src="javascript/fade.js"></script>
-    <script src="javascript/chart.js"></script>
+    <!-- <script src="javascript/chart.js"></script> -->
+    <script>
+        const canvas = document.getElementById('chartOneContainer');
+console.log(canvas);
+const ctx = canvas.getContext("2d");
+
+
+let chart_one = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'doughnut',
+
+    // The data for our dataset
+    data: {
+        labels: ['Femelle', 'Mâle'],
+        datasets: [{
+            // label: 'My First dataset',
+            backgroundColor: [
+                'rgba(19, 58, 84, 1)',
+                'rgba(67, 160, 184, 1)',
+            ],
+            borderColor: [
+                'transparent', 
+                'transparent'
+            ],
+            data: [44, 56],
+        }]
+    },
+
+    options: {
+        
+        maintainAspectRatio : false,
+        responsive: false,
+        aspectRatio : 1,
+        cutoutPercentage: 90,
+        title: {
+            display: true,
+            text: 'Genre des spécimens (%)',
+            fontFamily: "'Oyko', arial, sans-serif", 
+            fontColor: '#FFF',
+            fontSize: '18',
+        },
+        legend: {
+            labels: {
+                fontFamily: "'Oyko', arial, sans-serif", 
+                fontColor: '#FFF',
+            }
+        }
+        
+    }
+});
+
+
+    </script>
 </body>
 
 </html>

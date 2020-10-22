@@ -157,7 +157,7 @@ gobelins.forEach( gobelin => {
 
 let x = 0
 let y = -20
-let z = 20
+let z = 35
 let i = 0
 let gobelinsWainting = []
 // console.log(filters)
@@ -194,8 +194,8 @@ gobelins.forEach(gobelin => {
                 });    
             }   
             
-                if(z < -40){
-                    z = 20
+                if(z < -25){
+                    z = 35
                     y += 15
                 }
                 z -= 5
@@ -248,8 +248,8 @@ function init() {
     let map = document.getElementById('canvas_popu');
     let mapDimensions = map.getBoundingClientRect();
 
-    camera = new THREE.PerspectiveCamera( 75, mapDimensions.width / mapDimensions.height, 1, 500 );
-    camera.position.set( 50, 0, 0);
+    camera = new THREE.PerspectiveCamera( 60, mapDimensions.width / mapDimensions.height, 1, 500 );
+    camera.position.set(50, 0, 0);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 'rgb(1, 8, 24)');
