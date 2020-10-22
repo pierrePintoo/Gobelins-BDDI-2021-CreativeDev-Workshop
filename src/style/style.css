@@ -32,6 +32,24 @@ body {
 .filtres__8 {
   transform: translateY(40em);
 }
+.filtres__9 {
+  transform: translateY(45em);
+}
+.filtres__10 {
+  transform: translateY(50em);
+}
+.filtres__11 {
+  transform: translate(30em, 50em);
+}
+.filtres__12 {
+  transform: translate(20em, 50em);
+}
+.filtres__13 {
+  transform: translate(30em, 40em);
+}
+.filtres__14 {
+  transform: translate(30em, 20em);
+}
 #choix_jointures {
   position: absolute;
 }

@@ -51,6 +51,42 @@ let filters = {
         "Oui" : false,
         "Non" : false        
     },
+    "niveau_alternance" :  {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false,
+        "6": false,
+        "7": false,
+        "8": false,
+        "9": false,
+        "10": false,
+    },
+    "metier_vie" :  {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false,
+        "6": false,
+        "7": false,
+        "8": false,
+        "9": false,
+        "10": false,
+    },
+    "angoisse_avenir" :  {
+        "1": false,
+        "2": false,
+        "3": false,
+        "4": false,
+        "5": false,
+        "6": false,
+        "7": false,
+        "8": false,
+        "9": false,
+        "10": false,
+    },
     "jeux_videos" : {
         "Oui" : false,
         "Non" : false        
@@ -76,7 +112,9 @@ function listenFilters(){
             for(let i = 0; i < activatedFilters[j].length; i++){
                 // console.log(activatedFilters[j])
                 if(activatedFilters[j][i].checked){
-                    filters[activatedFilters[j][i].attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = true
+                    if(activatedFilters[j][i].attributes["value"].value != "nofilter"){
+                        filters[activatedFilters[j][i].attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = true
+                    }
                 } else if (activatedFilters[j][i].checked === false){
                     filters[activatedFilters[j][i].attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = false
                 } 
@@ -86,10 +124,9 @@ function listenFilters(){
             for(let i = 0; i < activatedFilters[j].length; i++){
                 // console.log(filters)
                 if(activatedFilters[j][i].selected){
-                    if(filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] == "ES"){
-                        console.log('ha gros c\'est true')
+                    if(activatedFilters[j][i].attributes["value"].value != "nofilter"){
+                        filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = true
                     }
-                    filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = true
                 } else if (activatedFilters[j][i].selected === false){
                     filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = false
                 } 
@@ -128,9 +165,9 @@ for(let filterName in filters){
         // console.log(filters[filterName][filterValue], ' doit être égal à true', filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ',gobelin.affiche)
         if(filters[filterName][filterValue]){
             gobelins.forEach(gobelin => {
-            console.log(filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ', gobelin.affiche)
-            if(gobelin[filterName] === filterValue && gobelin.affiche){
-                    console.log(gobelin.Horodateur)
+            // console.log(filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ', gobelin.affiche)
+            if(gobelin[filterName] == filterValue && gobelin.affiche){
+                    // console.log(gobelin.Horodateur)
                     gobelin.affiche = true
                 } else {
                     gobelin.affiche = false
@@ -189,11 +226,10 @@ request.responseType = 'json';
 request.send();
 request.onload = function() {
     datas = request.response
-    console.log(datas)
+    // console.log(datas)
     modelAllPersons(datas, loaders)
     document.onclick = (e) => {
         listenFilters()
-        // console.log("bite")
         modelAllPersons(datas, loaders)
 
         if(e.target.id === "reset_filters"){
