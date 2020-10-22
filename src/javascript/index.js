@@ -4,77 +4,6 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// let canvas = document.getElementById('canvas')
-// let c = canvas.getContext('2d')  
-
-// function drawResponse(datas){
-//     initCanvas()
-//     drawAllPersons(datas)
-// }
-
-// function initCanvas() {
-//     canvas.width = window.innerWidth
-//     canvas.height = window.innerHeight
-  
-//     c.fillStyle = 'rgba(255,0,0,0.5)';
-//     c.fillRect( 0, 0, canvas.width, canvas.height);
-//     c.fill()
-// }
-
-function getRandomIntBefore255(){
-    let randomNumber = Math.floor(Math.random() * 255)
-    return randomNumber
-}
-
-// function drawAllPersons(datas){
-//     let x = 300
-//     let y = 100
-//     let r = 20
-//     let randomInt = 0
-//     let gender
-//     // for (let i = 0; i < datas.length; i++){
-//     //     if(x > canvas.width - 100){
-//     //         x = 300
-//     //         y += 50
-//     //     }
-//     //     c.beginPath()
-//     //     randomInt = getRandomIntBefore255()
-//     //     isGender(datas, c)
-//     //     c.arc(x, y, r, 0, Math.PI * 2)
-//     //     c.fill()
-//     //     c.closePath()
-//     //     x += 50
-//     // }
-//     datas.forEach((el) => {
-//         if(x > canvas.width - 100){
-//             x = 300
-//             y += 50
-//         }
-//         c.beginPath()
-//         randomInt = getRandomIntBefore255()
-//         isGender(el, c)
-//         c.arc(x, y, r, 0, Math.PI * 2)
-//         c.fill()
-//         c.closePath()
-//         x += 50
-//     })
-// }
-
-// let filters = {
-//     "sexe": false,
-//     "localisation": false,
-//     "bac": false,
-//     "avenir_lycee": false,
-//     "premiere_idee_etudes": false,
-//     "influences" : false,
-//     "reorientation" : false,
-//     "epanoui": false,
-//     "changement_etudes" : false,
-//     "reco_etudes" : false,
-//     "jeux_videos" : false,
-//     "vision_dix_ans" : false
-// } 
-
 let filters = {
     "sexe": {
         "homme": false,
@@ -132,39 +61,6 @@ let filters = {
     }
 }    
 
-// console.log(filters)
-
-function isGender(el, c){
-        if(el.sexe === "homme" && filters.sexe){
-            // console.log('bite')
-            c.fillStyle = `blue`;
-        } else if(el.sexe === "femme" && filters.sexe){
-            c.fillStyle = `red`;
-        } else {
-            c.fillStyle = `grey`;
-        }
-}
-
-function listenFilters2 () {
-    let activatedFilters = []
-    let inputs = []
-    let options = []
-    inputs = document.querySelectorAll("input")
-    options = document.querySelectorAll("option")
-    activatedFilters.push(inputs)
-    activatedFilters.push(options)
-
-    for(let i = 0; i < inputs.length; i++){
-        // console.log(inputs)
-        if(inputs[i].checked){
-            filters[inputs[i].attributes["name"].value] = true
-        } else if (inputs[i].checked === false){
-            filters[inputs[i].attributes["name"].value] = false
-        } 
-    }
-    // console.log(filters)
-}
-
 function listenFilters(){
     let activatedFilters = []
     let inputs = []
@@ -204,10 +100,6 @@ function listenFilters(){
     // console.log(filters)
 }
 
-
-
-
-
 let container, stats;
 
 let camera, controls, scene, renderer;
@@ -223,60 +115,31 @@ function modelAllPersons(gobelins, loaders){
 gobelins.forEach( gobelin => {
     gobelin.affiche = true
 })
-    let x = 0
-    let y = -20
-    let z = 20
-    let i = 0
-    let gobelinsWainting = []
-    // console.log(filters)
-    // console.log(filters)
-    for(let filterName in filters){
-        for(let filterValue in filters[filterName]){
-            // console.log(filters[filterName][filterValue], ' doit être égal à true', filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ',gobelin.affiche)
-            if(filters[filterName][filterValue]){
-                gobelins.forEach(gobelin => {
-                console.log(filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ', gobelin.affiche)
-                if(gobelin[filterName] === filterValue && gobelin.affiche){
-                        console.log(gobelin.Horodateur)
-                        gobelin.affiche = true
-                    } else {
-                        gobelin.affiche = false
-                    }
-                })
-            }
+
+let x = 0
+let y = -20
+let z = 20
+let i = 0
+let gobelinsWainting = []
+// console.log(filters)
+// console.log(filters)
+for(let filterName in filters){
+    for(let filterValue in filters[filterName]){
+        // console.log(filters[filterName][filterValue], ' doit être égal à true', filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ',gobelin.affiche)
+        if(filters[filterName][filterValue]){
+            gobelins.forEach(gobelin => {
+            console.log(filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ', gobelin.affiche)
+            if(gobelin[filterName] === filterValue && gobelin.affiche){
+                    console.log(gobelin.Horodateur)
+                    gobelin.affiche = true
+                } else {
+                    gobelin.affiche = false
+                }
+            })
         }
     }
-    console.log(gobelins)
-            // console.log(gobelin.Horodateur ,gobelin.affiche)
-                   
-            // if(gobelin.affiche === "homme" && filters.sexe){
-            //     gltf.scene.children.forEach(el => {
-            //         if(el.type === "Mesh"){
-            //             el.material.color.r = 0
-            //             el.material.color.g = 0
-            //             el.material.color.b = 255
-            //             // console.log(el.material.color)
-            //         }
-            //     });
-            // } else if (gobelin.sexe === "femme" && filters.sexe){
-            //     gltf.scene.children.forEach(el => {
-            //         if(el.type === "Mesh"){
-            //             el.material.color.r = 255
-            //             el.material.color.g = 0
-            //             el.material.color.b = 0
-            //             // console.log(el.material.color)
-            //         }
-            //     });
-            // }
-            // if(gobelin.epanoui === "Non" && filters.epanoui){
-            //     gltf.scene.children.forEach(el => {
-            //         if(el.type === "Mesh"){
-            //             el.material.emissive = new THREE.Color( 0x00ffff );
-            //             el.material.emissiveIntensity = 0.5;
-            //             // console.log(el.material.color)
-            //         }
-            //     });
-            // }
+}
+
 gobelins.forEach(gobelin => {
         loaders[i] = new GLTFLoader();
 
@@ -346,7 +209,6 @@ request.onload = function() {
 function init() {
     // const canvas = document.querySelector('.main-canvas')
 
-
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
     camera.position.set( 50, 20, 0 );
 
@@ -376,7 +238,6 @@ function init() {
     }
 
     controls.maxPolarAngle = Math.PI / 2;
-
 
     let pointLight = new THREE.PointLight(0xffffff, 1);
     pointLight.position.x = 200
