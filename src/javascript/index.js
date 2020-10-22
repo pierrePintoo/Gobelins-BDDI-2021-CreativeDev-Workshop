@@ -4,31 +4,6 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-let datas = [];
-let filteredDatas = []
-let personsToDraw = []
-let began = false;
-let first = true;
-let etatJointure = false;
-let requestURL = '../datas_mercredi_midi.json';
-let request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'json';
-request.send();
-request.onload = function() {
-    datas = request.response
-    // if(began === false){
-    //     drawResponse(datas)
-    // }
-    // document.addEventListener("click", (e) => {
-    //     let filterName = e.target.id
-    //     let filterValue = e.target.name
-    //     let isChecked = e.target.checked
-    //     listenFilters2()
-    //     drawAllPersons(datas)
-    //     console.log('input checker')
-    // })
-  }
 // let canvas = document.getElementById('canvas')
 // let c = canvas.getContext('2d')  
 
@@ -99,6 +74,7 @@ let filters = {
     "jeux_videos" : false,
     "vision_dix_ans" : false
 } 
+console.log(filters)
 
 function isGender(el, c){
         if(el.sexe === "homme" && filters.sexe){
@@ -131,20 +107,97 @@ function listenFilters2 () {
     console.log(filters)
 }
 
+
+let datas = [];
+let filteredDatas = []
+let personsToDraw = []
+let began = false;
+let first = true;
+let etatJointure = false;
+let requestURL = '../datas_mercredi_midi.json';
+let request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+request.onload = function() {
+    datas = request.response
+    document.onclick = (e) => {
+        if(e.target.checked){
+            listenFilters2()
+            modelAllPersons(datas, loaders)
+        } else {
+            listenFilters2()
+            modelAllPersons(datas, loaders)
+        }
+    }
+
+}
+
 let container, stats;
 
 let camera, controls, scene, renderer;
 
 let mesh, texture;
 
+let loaders = []
+
 init();
 animate();
 
+function modelAllPersons(datas, loaders){
+
+    let x = 0
+    let y = -20
+    let z = 20
+    let i = 0
+    datas.forEach(gobelin => {
+        i++
+        loaders[i] = new GLTFLoader();
+
+        loaders[i].load( '../assets/Goblins.gltf', function ( gltf ) {
+            // console.log(gltf.scene.children)
+            if(gobelin.sexe === "homme" && filters.sexe){
+                gltf.scene.children.forEach(el => {
+                    if(el.type === "Mesh"){
+                        el.material.color.r = 0
+                        el.material.color.g = 0
+                        el.material.color.b = 255
+                        // console.log(el.material.color)
+                    }
+                });
+            } else if (gobelin.sexe === "femme" && filters.sexe){
+                gltf.scene.children.forEach(el => {
+                    if(el.type === "Mesh"){
+                        el.material.color.r = 255
+                        el.material.color.g = 0
+                        el.material.color.b = 0
+                        // console.log(el.material.color)
+                    }
+                });
+            }
+            if(z < -40){
+                z = 20
+                y += 15
+            }
+            z -= 5
+            gltf.scene.position.x = 0
+            gltf.scene.position.y = y // de -30 à 30
+            gltf.scene.position.z = z // de 10 à -50
+            scene.add( gltf.scene );
+    
+        }, undefined, function ( error ) {
+    
+            console.error( error );
+    
+        } );        
+    });
+
+}
 function init() {
     // const canvas = document.querySelector('.main-canvas')
 
 
-    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
     camera.position.set( 50, 20, 0 );
 
     scene = new THREE.Scene();
@@ -173,30 +226,7 @@ function init() {
     }
 
     controls.maxPolarAngle = Math.PI / 2;
-    
-    let loader = new GLTFLoader();
 
-    loader.load( '../assets/Goblins.gltf', function ( gltf ) {
-
-        scene.add( gltf.scene );
-
-    }, undefined, function ( error ) {
-
-        console.error( error );
-
-    } );
-
-    let loader2 = new GLTFLoader();
-
-    loader2.load( '../assets/Goblins.gltf', function ( gltf ) {
-        gltf.scene.position.y = 20
-        scene.add( gltf.scene );
-
-    }, undefined, function ( error ) {
-
-        console.error( error );
-
-    } );
 
     let pointLight = new THREE.PointLight(0xffffff, 1);
     pointLight.position.x = 200
