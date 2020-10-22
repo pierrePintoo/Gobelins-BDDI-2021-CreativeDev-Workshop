@@ -60,21 +60,79 @@ function getRandomIntBefore255(){
 //     })
 // }
 
+// let filters = {
+//     "sexe": false,
+//     "localisation": false,
+//     "bac": false,
+//     "avenir_lycee": false,
+//     "premiere_idee_etudes": false,
+//     "influences" : false,
+//     "reorientation" : false,
+//     "epanoui": false,
+//     "changement_etudes" : false,
+//     "reco_etudes" : false,
+//     "jeux_videos" : false,
+//     "vision_dix_ans" : false
+// } 
+
 let filters = {
-    "sexe": false,
-    "localisation": false,
-    "bac": false,
-    "avenir_lycee": false,
-    "premiere_idee_etudes": false,
-    "influences" : false,
-    "reorientation" : false,
-    "epanoui": false,
-    "changement_etudes" : false,
-    "reco_etudes" : false,
-    "jeux_videos" : false,
-    "vision_dix_ans" : false
-} 
-console.log(filters)
+    "sexe": {
+        "homme": false,
+        "femme": false
+    },
+    "localisation": {
+        "Campagne" : false,
+        "Metropole" : false
+    },
+    "bac": {
+        "S" : false,
+        "ES": false,
+        "L": false,
+        "Techno": false,
+        "Pro": false
+    },
+    "avenir_lycee": 
+    {
+        "Oui": false,
+        "Non": false
+    },
+    "premiere_idee_etudes": {
+        "Oui" : false,
+        "Non" : false
+    },
+    "influences" : {
+        "Personne": false,
+        "Amis": false,
+        "parents": false,
+        "Autre": false
+    },
+    "reorientation" : {
+        "Oui" : false,
+        "Non" : false
+    },
+    "epanoui":{
+        "Oui" : false,
+        "Non" : false
+    },
+    "changement_etudes" : {
+        "Oui" : false,
+        "Non" : false
+    },
+    "reco_etudes" : {
+        "Oui" : false,
+        "Non" : false        
+    },
+    "jeux_videos" : {
+        "Oui" : false,
+        "Non" : false        
+    },
+    "vision_dix_ans" : {
+        "CDI" : false,
+        "Freelance" : false
+    }
+}    
+
+// console.log(filters)
 
 function isGender(el, c){
         if(el.sexe === "homme" && filters.sexe){
@@ -107,6 +165,152 @@ function listenFilters2 () {
     // console.log(filters)
 }
 
+function listenFilters(){
+    let activatedFilters = []
+    let inputs = []
+    let options = []
+    inputs = document.querySelectorAll("input")
+    options = document.querySelectorAll("option")
+    activatedFilters.push(inputs)
+    activatedFilters.push(options)
+
+    for(let j = 0; j < activatedFilters.length; j++){
+        if(j == 0){
+            // Si c'est un élément input radio
+            for(let i = 0; i < activatedFilters[j].length; i++){
+                // console.log(activatedFilters[j])
+                if(activatedFilters[j][i].checked){
+                    filters[activatedFilters[j][i].attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = true
+                } else if (activatedFilters[j][i].checked === false){
+                    filters[activatedFilters[j][i].attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = false
+                } 
+            }
+        } else if (j == 1){
+            // Si c'est une boite option dans un select
+            for(let i = 0; i < activatedFilters[j].length; i++){
+                // console.log(filters)
+                if(activatedFilters[j][i].selected){
+                    if(filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] == "ES"){
+                        console.log('ha gros c\'est true')
+                    }
+                    filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = true
+                } else if (activatedFilters[j][i].selected === false){
+                    filters[activatedFilters[j][i].parentNode.attributes["name"].value][activatedFilters[j][i].attributes["value"].value] = false
+                } 
+            }
+        }
+    }
+
+    // console.log(filters)
+}
+
+
+
+
+
+let container, stats;
+
+let camera, controls, scene, renderer;
+
+let mesh, texture;
+
+let loaders = []
+
+init();
+animate();
+
+function modelAllPersons(gobelins, loaders){
+gobelins.forEach( gobelin => {
+    gobelin.affiche = true
+})
+    let x = 0
+    let y = -20
+    let z = 20
+    let i = 0
+    let gobelinsWainting = []
+    // console.log(filters)
+    // console.log(filters)
+    for(let filterName in filters){
+        for(let filterValue in filters[filterName]){
+            // console.log(filters[filterName][filterValue], ' doit être égal à true', filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ',gobelin.affiche)
+            if(filters[filterName][filterValue]){
+                gobelins.forEach(gobelin => {
+                console.log(filterValue,  ' doit être égal à ', gobelin[filterName], ' et le last true : ', gobelin.affiche)
+                if(gobelin[filterName] === filterValue && gobelin.affiche){
+                        console.log(gobelin.Horodateur)
+                        gobelin.affiche = true
+                    } else {
+                        gobelin.affiche = false
+                    }
+                })
+            }
+        }
+    }
+    console.log(gobelins)
+            // console.log(gobelin.Horodateur ,gobelin.affiche)
+                   
+            // if(gobelin.affiche === "homme" && filters.sexe){
+            //     gltf.scene.children.forEach(el => {
+            //         if(el.type === "Mesh"){
+            //             el.material.color.r = 0
+            //             el.material.color.g = 0
+            //             el.material.color.b = 255
+            //             // console.log(el.material.color)
+            //         }
+            //     });
+            // } else if (gobelin.sexe === "femme" && filters.sexe){
+            //     gltf.scene.children.forEach(el => {
+            //         if(el.type === "Mesh"){
+            //             el.material.color.r = 255
+            //             el.material.color.g = 0
+            //             el.material.color.b = 0
+            //             // console.log(el.material.color)
+            //         }
+            //     });
+            // }
+            // if(gobelin.epanoui === "Non" && filters.epanoui){
+            //     gltf.scene.children.forEach(el => {
+            //         if(el.type === "Mesh"){
+            //             el.material.emissive = new THREE.Color( 0x00ffff );
+            //             el.material.emissiveIntensity = 0.5;
+            //             // console.log(el.material.color)
+            //         }
+            //     });
+            // }
+gobelins.forEach(gobelin => {
+        loaders[i] = new GLTFLoader();
+
+        loaders[i].load( '../assets/Goblins.gltf', function ( gltf ) {
+            if(gobelin.affiche === false){
+                // console.log('bite')
+                gltf.scene.children.forEach(el => {
+                    if(el.type === "Mesh"){
+                        el.material.color.r = 0
+                        el.material.color.g = 0
+                        el.material.color.b = 0
+                        // console.log(el.material.color)
+                    }
+                });    
+            }   
+            
+                if(z < -40){
+                    z = 20
+                    y += 15
+                }
+                z -= 5
+                gltf.scene.position.x = 0
+                gltf.scene.position.y = y // de -30 à 30
+                gltf.scene.position.z = z // de 10 à -50
+                scene.add( gltf.scene );
+        
+            }, undefined, function ( error ) {
+        
+                console.error( error );
+        
+            } );        
+    });
+
+}
 
 let datas = [];
 let filteredDatas = []
@@ -122,95 +326,23 @@ request.responseType = 'json';
 request.send();
 request.onload = function() {
     datas = request.response
+    console.log(datas)
     modelAllPersons(datas, loaders)
     document.onclick = (e) => {
-        if(e.target.checked){
-            listenFilters2()
-            modelAllPersons(datas, loaders)
-        } else if(e.target.id === "reset_filters"){
+        listenFilters()
+        // console.log("bite")
+        modelAllPersons(datas, loaders)
+
+        if(e.target.id === "reset_filters"){
             e.preventDefault()
             inputs.forEach(el => {
                 el.checked = false
             })
-            listenFilters2()
-            modelAllPersons(datas, loaders)
-        } else {
-            listenFilters2()
-            modelAllPersons(datas, loaders)
         }
     }
 
 }
 
-let container, stats;
-
-let camera, controls, scene, renderer;
-
-let mesh, texture;
-
-let loaders = []
-
-init();
-animate();
-
-function modelAllPersons(datas, loaders){
-
-    let x = 0
-    let y = -20
-    let z = 20
-    let i = 0
-    datas.forEach(gobelin => {
-        i++
-        loaders[i] = new GLTFLoader();
-
-        loaders[i].load( '../assets/Goblins.gltf', function ( gltf ) {
-            // console.log(gltf.scene.children)
-            if(gobelin.sexe === "homme" && filters.sexe){
-                gltf.scene.children.forEach(el => {
-                    if(el.type === "Mesh"){
-                        el.material.color.r = 0
-                        el.material.color.g = 0
-                        el.material.color.b = 255
-                        // console.log(el.material.color)
-                    }
-                });
-            } else if (gobelin.sexe === "femme" && filters.sexe){
-                gltf.scene.children.forEach(el => {
-                    if(el.type === "Mesh"){
-                        el.material.color.r = 255
-                        el.material.color.g = 0
-                        el.material.color.b = 0
-                        // console.log(el.material.color)
-                    }
-                });
-            }
-            if(gobelin.epanoui === "Non" && filters.epanoui){
-                gltf.scene.children.forEach(el => {
-                    if(el.type === "Mesh"){
-                        el.material.emissive = new THREE.Color( 0x00ffff );
-                        el.material.emissiveIntensity = 0.5;
-                        // console.log(el.material.color)
-                    }
-                });
-            }
-            if(z < -40){
-                z = 20
-                y += 15
-            }
-            z -= 5
-            gltf.scene.position.x = 0
-            gltf.scene.position.y = y // de -30 à 30
-            gltf.scene.position.z = z // de 10 à -50
-            scene.add( gltf.scene );
-    
-        }, undefined, function ( error ) {
-    
-            console.error( error );
-    
-        } );        
-    });
-
-}
 function init() {
     // const canvas = document.querySelector('.main-canvas')
 
