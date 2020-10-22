@@ -4,6 +4,133 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+let datas = [];
+let filteredDatas = []
+let personsToDraw = []
+let began = false;
+let first = true;
+let etatJointure = false;
+let requestURL = '../datas_mercredi_midi.json';
+let request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+request.onload = function() {
+    datas = request.response
+    // if(began === false){
+    //     drawResponse(datas)
+    // }
+    // document.addEventListener("click", (e) => {
+    //     let filterName = e.target.id
+    //     let filterValue = e.target.name
+    //     let isChecked = e.target.checked
+    //     listenFilters2()
+    //     drawAllPersons(datas)
+    //     console.log('input checker')
+    // })
+  }
+// let canvas = document.getElementById('canvas')
+// let c = canvas.getContext('2d')  
+
+// function drawResponse(datas){
+//     initCanvas()
+//     drawAllPersons(datas)
+// }
+
+// function initCanvas() {
+//     canvas.width = window.innerWidth
+//     canvas.height = window.innerHeight
+  
+//     c.fillStyle = 'rgba(255,0,0,0.5)';
+//     c.fillRect( 0, 0, canvas.width, canvas.height);
+//     c.fill()
+// }
+
+function getRandomIntBefore255(){
+    let randomNumber = Math.floor(Math.random() * 255)
+    return randomNumber
+}
+
+// function drawAllPersons(datas){
+//     let x = 300
+//     let y = 100
+//     let r = 20
+//     let randomInt = 0
+//     let gender
+//     // for (let i = 0; i < datas.length; i++){
+//     //     if(x > canvas.width - 100){
+//     //         x = 300
+//     //         y += 50
+//     //     }
+//     //     c.beginPath()
+//     //     randomInt = getRandomIntBefore255()
+//     //     isGender(datas, c)
+//     //     c.arc(x, y, r, 0, Math.PI * 2)
+//     //     c.fill()
+//     //     c.closePath()
+//     //     x += 50
+//     // }
+//     datas.forEach((el) => {
+//         if(x > canvas.width - 100){
+//             x = 300
+//             y += 50
+//         }
+//         c.beginPath()
+//         randomInt = getRandomIntBefore255()
+//         isGender(el, c)
+//         c.arc(x, y, r, 0, Math.PI * 2)
+//         c.fill()
+//         c.closePath()
+//         x += 50
+//     })
+// }
+
+let filters = {
+    "sexe": false,
+    "localisation": false,
+    "bac": false,
+    "avenir_lycee": false,
+    "premiere_idee_etudes": false,
+    "influences" : false,
+    "reorientation" : false,
+    "epanoui": false,
+    "changement_etudes" : false,
+    "reco_etudes" : false,
+    "jeux_videos" : false,
+    "vision_dix_ans" : false
+} 
+
+function isGender(el, c){
+        if(el.sexe === "homme" && filters.sexe){
+            // console.log('bite')
+            c.fillStyle = `blue`;
+        } else if(el.sexe === "femme" && filters.sexe){
+            c.fillStyle = `red`;
+        } else {
+            c.fillStyle = `grey`;
+        }
+}
+
+function listenFilters2 () {
+    let activatedFilters = []
+    let inputs = []
+    let options = []
+    inputs = document.querySelectorAll("input")
+    options = document.querySelectorAll("option")
+    activatedFilters.push(inputs)
+    activatedFilters.push(options)
+
+    for(let i = 0; i < inputs.length; i++){
+        // console.log(inputs)
+        if(inputs[i].checked){
+            filters[inputs[i].attributes["name"].value] = true
+        } else if (inputs[i].checked === false){
+            filters[inputs[i].attributes["name"].value] = false
+        } 
+    }
+    console.log(filters)
+}
+
 let container, stats;
 
 let camera, controls, scene, renderer;
