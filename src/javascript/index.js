@@ -104,7 +104,7 @@ function listenFilters2 () {
             filters[inputs[i].attributes["name"].value] = false
         } 
     }
-    console.log(filters)
+    // console.log(filters)
 }
 
 
@@ -114,6 +114,7 @@ let personsToDraw = []
 let began = false;
 let first = true;
 let etatJointure = false;
+let inputs = document.querySelectorAll('input')
 let requestURL = '../datas_mercredi_midi.json';
 let request = new XMLHttpRequest();
 request.open('GET', requestURL);
@@ -121,8 +122,16 @@ request.responseType = 'json';
 request.send();
 request.onload = function() {
     datas = request.response
+    modelAllPersons(datas, loaders)
     document.onclick = (e) => {
         if(e.target.checked){
+            listenFilters2()
+            modelAllPersons(datas, loaders)
+        } else if(e.target.id === "reset_filters"){
+            e.preventDefault()
+            inputs.forEach(el => {
+                el.checked = false
+            })
             listenFilters2()
             modelAllPersons(datas, loaders)
         } else {
@@ -171,6 +180,15 @@ function modelAllPersons(datas, loaders){
                         el.material.color.r = 255
                         el.material.color.g = 0
                         el.material.color.b = 0
+                        // console.log(el.material.color)
+                    }
+                });
+            }
+            if(gobelin.epanoui === "Non" && filters.epanoui){
+                gltf.scene.children.forEach(el => {
+                    if(el.type === "Mesh"){
+                        el.material.emissive = new THREE.Color( 0x00ffff );
+                        el.material.emissiveIntensity = 0.5;
                         // console.log(el.material.color)
                     }
                 });
@@ -231,6 +249,7 @@ function init() {
     let pointLight = new THREE.PointLight(0xffffff, 1);
     pointLight.position.x = 200
     pointLight.position.y = 200
+    pointLight.position.z = 200
     scene.add(pointLight);
 
     window.addEventListener( 'resize', onWindowResize, false );
