@@ -190,7 +190,6 @@ gobelins.forEach(gobelin => {
                         el.material.color.r = 0
                         el.material.color.g = 0
                         el.material.color.b = 0
-                        // console.log(el.material.color)
                     }
                 });    
             }   
@@ -245,13 +244,12 @@ request.onload = function() {
 }
 
 function init() {
-    // const canvas = document.querySelector('.main-canvas')
-
+    
     let map = document.getElementById('canvas_popu');
     let mapDimensions = map.getBoundingClientRect();
 
     camera = new THREE.PerspectiveCamera( 75, mapDimensions.width / mapDimensions.height, 1, 500 );
-    camera.position.set( 50, 20, 0 );
+    camera.position.set( 50, 0, 0);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 'rgb(1, 8, 24)');
