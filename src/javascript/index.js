@@ -1,54 +1,108 @@
-
-
 import Mouse from "./utils/mouse"
 import Easing from "./utils/easing"
 import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-const canvas = document.querySelector('.main-canvas')
+let container, stats;
 
-let time = 0
+let camera, controls, scene, renderer;
 
-// Setup Scene
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-var renderer = new THREE.WebGLRenderer({
-   canvas: canvas
-});
-renderer.setSize(window.innerWidth, window.innerHeight)
-renderer.setPixelRatio(window.devicePixelRatio)
+let mesh, texture;
 
-let geometry = new THREE.PlaneBufferGeometry(2, 2, 1, 1)
+init();
+animate();
 
-let material = new THREE.RawShaderMaterial({
-    uniforms: {
-        time: { value: 1.0 },
-        rez: { type: "v2", value: [canvas.width, canvas.height] },
-        mouse: { type: "v2", value: Mouse.cursor }
-    },
-    vertexShader: require("../shaders/screen.vert"),
-    fragmentShader: require("../shaders/screen.frag"),
- });
+function init() {
+    // const canvas = document.querySelector('.main-canvas')
 
-let mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
- 
-camera.position.z = 5
 
-// à chaque image : 60fps
-const update = () => {
-   requestAnimationFrame(update)
-   time += 0.01
+    camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+    camera.position.set( 50, 20, 0 );
 
-   material.uniforms.time.value = time
-   material.uniforms.mouse.value = Mouse.cursor
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0xbfd1e5 );
 
-   mesh.rotation.x += 0.01
-   mesh.rotation.z += 0.005
-   // console.log(Mouse.cursor)
-   // console.log((Mouse.cursor[0] + 1) / 2, (Mouse.cursor[1] + 1) / 2)
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( window.innerWidth, window.innerHeight );
+    document.body.appendChild( renderer.domElement );
+    controls = new OrbitControls( camera, renderer.domElement );
 
-   // Render WebGL Scene
-   renderer.render(scene, camera);
+    controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    // controls.enableZoom = true;
+    controls.dampingFactor = 0.05;
+
+    controls.screenSpacePanning = false;
+
+    controls.minDistance = 10;
+    controls.maxDistance = 500;
+
+    controls.keys = {
+        LEFT: 37, //left arrow
+        UP: 38, // up arrow
+        RIGHT: 39, // right arrow
+        BOTTOM: 40 // down arrow
+    }
+
+    controls.maxPolarAngle = Math.PI / 2;
+    
+    let loader = new GLTFLoader();
+
+    loader.load( '../assets/Goblins.gltf', function ( gltf ) {
+
+        scene.add( gltf.scene );
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
+
+    let loader2 = new GLTFLoader();
+
+    loader2.load( '../assets/Goblins.gltf', function ( gltf ) {
+        gltf.scene.position.y = 20
+        scene.add( gltf.scene );
+
+    }, undefined, function ( error ) {
+
+        console.error( error );
+
+    } );
+
+    let pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.x = 200
+    pointLight.position.y = 200
+    scene.add(pointLight);
+
+    window.addEventListener( 'resize', onWindowResize, false );
 
 }
-requestAnimationFrame(update)
+
+function onWindowResize() {
+
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize( window.innerWidth, window.innerHeight );
+
+    // controls.handleResize();
+
+}
+
+function animate() {
+
+    requestAnimationFrame( animate );
+    controls.update();
+    render();
+    // stats.update();
+
+}
+
+function render() {
+
+    // controls.update( clock.getDelta() );
+    renderer.render( scene, camera );
+
+}
