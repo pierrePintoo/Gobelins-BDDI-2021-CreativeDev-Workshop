@@ -2,7 +2,7 @@
   "name": "creative-boilerplate",
   "version": "0.2.0",
   "scripts": {
-    "start": "NODE_ENV=developement webpack-dev-server",
+    "start": "webpack-dev-server",
     "build": "cp ./src/*.html ./build/ & cp -R ./src/assets ./build/ & webpack -p"
   },
   "dependencies": {

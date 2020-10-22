@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <title>Gobelins Creative Dev workshop</title>
     <link rel="stylesheet" href="style/style.css">
@@ -12,7 +14,8 @@
 </head>
 
 <body>
-    <h1 style="position: absolute; transform: translateX(5em);">Qui est comme toi parmis les gobelins ?</h1>
+
+    <!-- <h1 style="position: absolute; transform: translateX(5em);">Qui est comme toi parmis les gobelins ?</h1>
     <div class="filtres filtres__1">
         <form>
             <h4>D'ou viens-tu ?</h4>
@@ -180,7 +183,109 @@
             </select>
         </form>
     </div>
+    <div id='test'>
+       
+    </div> -->
     <!-- Webpack Magic -->
+   
+
+    <div class="welcome"> 
+        <img src="assets/logo.svg" alt="" class="logo">
+        <img class="welcome-image" src="assets/GobelinsLowPolyParticleBleu.svg" alt="">
+        <div class="holo"></div>
+        <p class="welcome-explanation">Analyse et datavisualisation des gobelins en BDDI</p>
+        <div class="welcome-button"><a href="#">Lancer l'expérience</a></div>
+    </div>
+
+
+    <div class="container" id="main"> 
+        <div class="filter-container">
+            <div class="menu-header"><p>FILTRES :\\</p></div>
+            <div class="menu">
+                <div class="list">
+                    <div class="list-element">
+                        <p>SEXE</p>
+                        <label for="homme">Mâle</label>
+                        <input type="radio" id="homme" value="homme" name="sexe">
+                        <label for="femme">Femelle</label>
+                        <input type="radio" id="femme" value="femme" name="sexe">
+                        <label for="femme">Les deux</label>
+                        <input type="radio" id="nofilter" value="no-filter" name="sexe">
+                    </div>
+                    <br>
+                    <div class="list-element">
+                        <label for="ville">LIEU D'ORIGINE</label>
+                        <br>
+                        <select name="localisation" id="origine-select">
+                            <option value="">Choisissez une option</option>
+                            <option value="ville">Grande ville</option>
+                            <option value="campagne">Campagne</option>
+                        </select>
+                    </div>
+                   
+                    <br>
+                    <div class="list-element">
+                        <label for="bac">CATEGORIE DE BASE</label>
+                        <br>
+                        <select name="bac" id="bac-select">
+                            <option value="nofilter">Choisissez une option</option>
+                            <option value="S">Scientifique</option>
+                            <option value="L">Littéraire</option>
+                            <option value="ES">Economique et sociale</option>
+                            <option value="Techno">Technologique</option>
+                            <option value="Pro">Profesionnelle</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="list-element">
+                        <label for="epanoui">EPANOUISSEMENT</label>
+                        <br>
+                        <select name="epanoui" id="epanoui">
+                            <option value="nofilter">Choisissez une option</option>
+                            <option value="oui">Oui</option>
+                            <option value="non">Non</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="list-element">
+                        <label for="angoisse_avenir">NIVEAU D'ANGOISSE</label>
+                        <br>
+                        <select name="angoisse_avenir" id="angoisse_avenir">
+                            <option value="nofilter">Choisissez une option</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </div>
+                
+                    
+                </div>
+            </div>
+        </div>
+        <div class="population">
+            <div id="canvas_popu"></div>
+        </div>
+    </div>
+    <div class="data">
+        <p class="explication_data">Données recueillies sur un ensemble de 50 gobelins</p>
+        <div class="chart">
+            <canvas id="chartOneContainer" width='350' height="350"></canvas>
+            <canvas id="chartTwoContainer" width='300' height="300" ></canvas>
+        </div>
+
+    </div>
+
+    <script src="javascript/index.js"></script>
+    <script src="javascript/fade.js"></script>
+    <script src="javascript/chart.js"></script>
 </body>
 
 </html>

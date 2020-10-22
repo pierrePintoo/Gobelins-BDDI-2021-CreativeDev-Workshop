@@ -4,6 +4,8 @@ import * as THREE from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
+
+
 let filters = {
     "sexe": {
         "homme": false,
@@ -245,16 +247,19 @@ request.onload = function() {
 function init() {
     // const canvas = document.querySelector('.main-canvas')
 
-    camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
+    let map = document.getElementById('canvas_popu');
+    let mapDimensions = map.getBoundingClientRect();
+
+    camera = new THREE.PerspectiveCamera( 75, mapDimensions.width / mapDimensions.height, 1, 500 );
     camera.position.set( 50, 20, 0 );
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color( 0xbfd1e5 );
+    scene.background = new THREE.Color( 'rgb(1, 8, 24)');
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio( window.devicePixelRatio );
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    document.body.appendChild( renderer.domElement );
+    renderer.setSize( mapDimensions.width-10, mapDimensions.height-10);
+    map.appendChild( renderer.domElement );
     controls = new OrbitControls( camera, renderer.domElement );
 
     controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
@@ -311,3 +316,4 @@ function render() {
     renderer.render( scene, camera );
 
 }
+
